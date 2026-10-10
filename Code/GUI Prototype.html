@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>AGAHI – GUI Prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#cfe2ee;--card:#f7fcff;--ink:#1f2a6b;--mute:#5d6c8f;--line:#b4cddd;--mid:#94b8cb;--soft:#e4f0f8;--bad:#a8434e;--sh:#8fb2c6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a3a;--card:#1b2552;--ink:#e6f0fa;--mute:#9db0d0;--line:#34437a;--mid:#5f7fa8;--soft:#232f63;--bad:#e0818b;--sh:#0b1130}}
+:root[data-theme="dark"]{--bg:#121a3a;--card:#1b2552;--ink:#e6f0fa;--mute:#9db0d0;--line:#34437a;--mid:#5f7fa8;--soft:#232f63;--bad:#e0818b;--sh:#0b1130}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font:15px/1.55 Nunito,system-ui,sans-serif;background:var(--bg)}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:900;margin:0}h1{font-size:34px}h3{font-size:19px;margin-bottom:10px}
+.app{display:grid;grid-template-columns:244px 1fr;min-height:100vh}.auth .app{grid-template-columns:1fr}.auth nav,.auth .bar0{display:none}
+nav{padding:20px 14px;display:flex;flex-direction:column;gap:3px;position:sticky;top:0;height:100vh;background:var(--card);border-right:1px solid var(--line)}
+.logo{font:900 27px Fraunces,serif;padding:0 10px}.sub{font-size:11px;color:var(--mute);padding:0 10px 14px}
+nav b{font-size:11px;color:var(--mute);padding:10px 12px 2px;letter-spacing:.08em}
+nav button{all:unset;cursor:pointer;padding:8px 12px;border-radius:10px;font-weight:700}
+nav button:hover{background:var(--soft)}nav button:focus-visible,.btn:focus-visible,.opt:focus-visible{outline:2px solid var(--ink)}
+nav button.on{background:var(--ink);color:var(--card)}
+.me{margin-top:auto;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12px;background:var(--soft)}
+main{padding:22px 38px 40px;max-width:1260px;width:100%;margin:auto}
+.bar0{display:flex;justify-content:flex-end;gap:12px;align-items:center;margin-bottom:14px}
+.search{flex:1;max-width:340px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 16px;color:var(--mute)}
+.av{width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--card);display:grid;place-items:center;font-weight:800}
+section{display:none}section.on{display:block}
+.top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}.top p,.mute{margin:2px 0 0;color:var(--mute);font-size:13px}
+.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1.5fr 1fr}.e2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 4px 0 var(--sh)}
+.big{font:900 32px Fraunces,serif}
+.bar{height:9px;border-radius:9px;background:var(--soft);border:1px solid var(--line);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--ink)}
+.btn{all:unset;cursor:pointer;background:var(--ink);color:var(--card);font-weight:800;padding:10px 20px;border-radius:99px;display:inline-block}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--ink);padding:8px 18px}.btn.full{width:100%;text-align:center;box-sizing:border-box}
+.pill{background:var(--soft);border:1px solid var(--line);border-radius:99px;padding:4px 13px;font-weight:700;font-size:13px}
+.hm{display:grid;grid-template-columns:110px repeat(8,1fr);gap:4px;align-items:center;font-size:12px}.hm .c{height:30px;border-radius:7px;border:1px solid var(--ink)}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px 6px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--mute)}
+.drop{border:2px dashed var(--ink);border-radius:20px;padding:26px;text-align:center;background:var(--card);margin-bottom:16px}
+.q{margin-left:auto;background:var(--ink);color:var(--card);padding:10px 15px;border-radius:16px 16px 3px 16px;max-width:70%;width:fit-content;margin-bottom:12px}
+.a{background:var(--soft);border:1px solid var(--line);padding:14px;border-radius:16px 16px 16px 3px}
+.cite{background:var(--mid);color:#10184a;border-radius:6px;padding:0 7px;font-size:12px;font-weight:700}
+.src{border-left:4px solid var(--mid);padding:6px 10px;margin-bottom:10px;background:var(--soft);border-radius:0 10px 10px 0;font-size:13px}
+.inp{border:1px solid var(--line);border-radius:99px;padding:10px 16px;color:var(--mute);background:var(--soft);margin-top:14px}
+.field{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--soft);margin:5px 0 12px;color:var(--mute)}
+.opt{all:unset;display:block;width:100%;box-sizing:border-box;cursor:pointer;border:2px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:10px;background:var(--card)}
+.opt:hover{border-color:var(--ink)}.opt.ok{border-color:var(--ink);background:var(--soft)}.opt.no{border-color:var(--bad);border-style:dashed}
+.fb{display:none;padding:12px;border-radius:12px;background:var(--soft);border-left:4px solid var(--ink)}
+.fc{height:230px;display:grid;place-items:center;text-align:center;font:900 24px Fraunces,serif;cursor:pointer;padding:30px}
+.hb{display:grid;grid-template-columns:130px 1fr 100px;gap:10px;align-items:center;margin:9px 0}.hb .bar{height:14px;margin:0}
+.ring{width:240px;height:240px;border-radius:50%;margin:10px auto;display:grid;place-items:center;background:conic-gradient(var(--ink) 0 62%,var(--soft) 0);border:1px solid var(--line)}
+.ring div{width:196px;height:196px;border-radius:50%;background:var(--card);display:grid;place-items:center;font:900 52px Fraunces,serif}
+.seg{display:flex;gap:6px;justify-content:center}.seg span{border:1px solid var(--line);border-radius:99px;padding:5px 14px}.seg .on{background:var(--ink);color:var(--card)}
+.tog{display:inline-block;width:38px;height:20px;border-radius:99px;background:var(--ink);vertical-align:middle}.tog.off{background:var(--line)}
+.scroll{overflow-x:auto}
+.book{max-width:500px;margin:40px auto;padding:34px 40px;position:relative;border-radius:26px;border:2px solid var(--ink);box-shadow:0 8px 0 var(--mid),0 0 0 12px var(--soft)}
+.book:after{content:"";position:absolute;top:-2px;right:34px;width:30px;height:56px;background:var(--mid);clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%)}
+.book h1{font-size:46px;line-height:1.05;margin-bottom:4px}.book .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.book p.mute{text-align:center}
+.chk{display:flex;gap:8px;align-items:center;margin:4px 0 16px;font-size:13px}.chk i{width:18px;height:18px;border:2px solid var(--ink);border-radius:5px;background:var(--ink)}
+
+.bgart{position:fixed;inset:0 0 0 244px;z-index:0;pointer-events:none;color:var(--mid)}.auth .bgart{left:0}.bgart svg{width:100%;height:100%}
+.app{position:relative;z-index:1}
+nav b{color:var(--ink)!important;opacity:1!important;font-size:11px!important;letter-spacing:.12em!important;margin-top:10px;padding:12px 12px 4px!important;border-top:1px solid var(--line);display:flex;align-items:center;gap:7px}
+nav b:before{content:"";width:7px;height:7px;border-radius:2px;background:var(--mid)}
+
+nav button{display:flex!important;align-items:center;gap:10px}.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card{box-shadow:-9px 9px 0 var(--sh)!important}.grid{gap:26px!important}
+
+:root{--nav:#fff}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--nav:#1b2552}}:root[data-theme="dark"]{--nav:#1b2552}
+nav{background:var(--nav)!important;box-shadow:4px 0 0 var(--sh);overflow-y:auto}.ic{width:20px;height:20px}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-dash" viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></symbol><symbol id="i-lib" viewBox="0 0 24 24"><path d="M3 4h4v16H3zM9 4h4v16H9zM15 6l4-1 3 14-4 1z"/></symbol><symbol id="i-sum" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM9 12h7M9 16h7"/></symbol><symbol id="i-ask" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4zM8 9h8M8 12h5"/></symbol><symbol id="i-fc" viewBox="0 0 24 24"><path d="M7 4h13v10H7zM4 8v10h13"/></symbol><symbol id="i-setup" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16M9 5v4M15 10v4M8 15v4"/></symbol><symbol id="i-quiz" viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M20 12v7H4V5h11"/></symbol><symbol id="i-res" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0zM8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4M12 14v4M8 20h8"/></symbol><symbol id="i-prog" viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8M16 6h3v3"/></symbol><symbol id="i-exam" viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12zM15 15l5 5"/></symbol><symbol id="i-focus" viewBox="0 0 24 24"><path d="M12 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 10v5l3 2M10 2h4M12 2v4"/></symbol><symbol id="i-set" viewBox="0 0 24 24"><path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></symbol><symbol id="i-signup" viewBox="0 0 24 24"><path d="M10 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM3 20c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6"/></symbol><symbol id="i-login" viewBox="0 0 24 24"><path d="M15 4h5v16h-5M4 12h11M11 8l4 4-4 4"/></symbol>
+<g id="pen"><rect x="-14" y="-90" width="28" height="180" rx="8"/><path d="M-14 20h28M-14 40h28M-8-90l8-24 8 24" fill="none"/></g>
+<g id="globe"><circle r="68"/><path d="M-68 0a68 68 0 0 0 136 0M0-68v136M-50-30h100M-40 60l-20 30h120l-20-30" fill="none"/></g>
+<g id="notebook"><rect x="-120" y="-60" width="240" height="140" rx="6"/><path d="M0-60v140M-100-30h80M-100 0h80M-100 30h80M30-30h80M30 0h80" fill="none"/></g>
+<g id="books"><rect x="-90" y="-30" width="180" height="34" rx="5"/><rect x="-100" y="10" width="190" height="34" rx="5"/><rect x="-95" y="50" width="185" height="34" rx="5"/><path d="M-70-13h120M-80 27h120M-75 67h120" fill="none"/></g>
+<g id="trophy"><path d="M-28 100h56v100l-28-26-28 26z" transform="translate(0 -60)"/><path d="M-30-90h60c0 40-15 70-30 70s-30-30-30-70zM0-20v30M-24 10h48"/></g>
+<g id="openbook"><path d="M-110-50h110v120h-110zM0-50h110v120H0z"/><path d="M-90-20h70M-90 5h70M-90 30h70M20-20h70M20 5h70M20 30h70" fill="none"/></g>
+<g id="backpack"><rect x="-50" y="-70" width="100" height="140" rx="34"/><rect x="-34" y="-20" width="68" height="50" rx="10"/><path d="M-18-70v-14h36v14M-24-40h48" fill="none"/></g>
+<g id="clock"><circle r="88"/><circle r="72" fill="none"/><path d="M0 0l-45-20M0 0l8-60M0-72v10M72 0h-10M0 72v-10M-72 0h10" fill="none"/></g>
+<g id="folder"><rect x="-60" y="-100" width="130" height="190" rx="8"/><rect x="-45" y="-80" width="90" height="34" rx="4"/><path d="M-40-20h70M-40 0h70" fill="none"/></g>
+<g id="magnifier"><circle r="48"/><path d="M-20-30v60M0-34v68M20-30v60" fill="none"/><path d="M34 34l50 50" stroke-width="12" fill="none"/></g>
+<g id="bell"><path d="M-48 20a48 48 0 0 1 96 0z"/><circle cy="-6" r="10"/><rect x="-60" y="26" width="120" height="40" rx="5"/></g>
+<g id="cup"><rect x="-35" y="-10" width="70" height="60" rx="6"/><path d="M-20-10l-24-60M0-10l-6-70M20-10l16-64" fill="none"/></g>
+<g id="binders"><rect x="-90" y="-100" width="60" height="150" rx="6"/><rect x="-25" y="-110" width="60" height="160" rx="6"/><rect x="40" y="-100" width="60" height="150" rx="6"/><rect x="-78" y="-70" width="36" height="50" fill="none"/><rect x="-13" y="-80" width="36" height="50" fill="none"/></g>
+<g id="pdf" transform="translate(-26 -36)"><path d="M0 0h36l16 16v56H0z M36 0v16h16 M10 36h32 M10 48h32 M10 60h20"/></g>
+<g id="cards"><rect x="-20" y="-24" width="50" height="34" rx="5"/><rect x="-30" y="-10" width="50" height="34" rx="5"/><path d="M-20 8h28" fill="none"/></g>
+<g id="bulb" transform="translate(-30 -34)"><path d="M30 0a22 22 0 0 1 12 40v10H18V40A22 22 0 0 1 30 0z M20 58h20 M24 66h12"/></g>
+<g id="checklist" transform="translate(-25 -32)"><rect width="50" height="64" rx="6"/><path d="M10 18l5 5 9-10 M30 18h12 M10 40l5 5 9-10 M30 40h12" fill="none"/></g>
+<g id="chat" transform="translate(-31 -27)"><path d="M0 0h56a6 6 0 0 1 6 6v30a6 6 0 0 1-6 6H22l-14 12V42H0z"/><path d="M12 14h38 M12 26h26" fill="none"/></g>
+<g id="heat"><rect x='-28' y='-28' width='16' height='16' rx='3'/><rect x='-8' y='-28' width='16' height='16' rx='3'/><rect x='12' y='-28' width='16' height='16' rx='3'/><rect x='-28' y='-8' width='16' height='16' rx='3'/><rect x='-8' y='-8' width='16' height='16' rx='3'/><rect x='12' y='-8' width='16' height='16' rx='3'/><rect x='-28' y='12' width='16' height='16' rx='3'/><rect x='-8' y='12' width='16' height='16' rx='3'/><rect x='12' y='12' width='16' height='16' rx='3'/></g>
+<g id="tomato" transform="translate(-30 -30)"><circle cx="30" cy="36" r="26"/><path d="M30 10c-4-8-12-8-16-4 M30 10c4-8 12-8 16-4 M30 10V0" fill="none"/></g>
+<g id="cap" transform="translate(-30 -18)"><path d="M0 20l30-16 30 16-30 16z M12 28v16c10 10 26 10 36 0V28 M60 20v20"/></g>
+<g id="flame" transform="translate(-26 -30)"><path d="M26 0c4 16 24 22 24 44a24 24 0 0 1-48 0c0-12 8-16 12-26 4 8 6 8 12-18z"/></g>
+</defs></svg>
+<div class="bgart" aria-hidden="true"><svg id="art" viewBox="0 0 1307 731" preserveAspectRatio="xMidYMid slice" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-opacity=".8" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"></svg></div>
+<div class="app">
+<nav aria-label="Main"><div class="logo">AGAHI</div><div class="sub">Academic Hub &amp; Information</div>
+<button class="on" data-s="dash"><svg class="ic"><use href="#i-dash"/></svg>Dashboard</button><b>STUDY</b><button data-s="lib"><svg class="ic"><use href="#i-lib"/></svg>Library</button><button data-s="sum"><svg class="ic"><use href="#i-sum"/></svg>Summary</button><button data-s="ask"><svg class="ic"><use href="#i-ask"/></svg>Ask AGAHI</button><button data-s="fc"><svg class="ic"><use href="#i-fc"/></svg>Flashcards</button>
+<b>PRACTICE</b><button data-s="setup"><svg class="ic"><use href="#i-setup"/></svg>Quiz Setup</button><button data-s="quiz"><svg class="ic"><use href="#i-quiz"/></svg>Quiz</button><button data-s="res"><svg class="ic"><use href="#i-res"/></svg>Results</button>
+<b>INSIGHTS</b><button data-s="prog"><svg class="ic"><use href="#i-prog"/></svg>Progress</button><button data-s="exam"><svg class="ic"><use href="#i-exam"/></svg>Exam Insights</button><button data-s="focus"><svg class="ic"><use href="#i-focus"/></svg>Focus Timer</button><b>ACCOUNT</b><button data-s="set"><svg class="ic"><use href="#i-set"/></svg>Settings</button><button data-s="login"><svg class="ic"><use href="#i-login"/></svg>Log in</button><button data-s="signup"><svg class="ic"><use href="#i-signup"/></svg>Sign up</button>
+</nav>
+<main><div class="bar0"><div class="search">Search documents, topics…</div><span class="pill">12-day streak</span><div class="av">AK</div></div>
+
+<section id="login"><div class="book"><h1>Welcome back</h1><p class="mute" style="text-align:left;margin-bottom:20px">Log in to continue studying with AGAHI.</p><b>University email</b><div class="field">ayesha@lhr.nu.edu.pk</div><b>Password</b><div class="field">••••••••</div><div class="chk" style="justify-content:space-between"><span>Remember me</span><u>Forgot password?</u></div><button class="btn full" data-go="dash">Log in</button><p class="mute" style="margin-top:16px">New to AGAHI? <u data-go="signup" style="cursor:pointer;color:var(--ink);font-weight:800">Create an account</u></p></div></section>
+
+<section id="signup"><div class="book"><h1>Create your account</h1><p class="mute" style="text-align:left;margin-bottom:20px">Turn your course material into a personal study plan.</p><div class="row"><div><b>First name</b><div class="field">Ayesha</div></div><div><b>Last name</b><div class="field">Khan</div></div></div><b>University email</b><div class="field">ayesha@lhr.nu.edu.pk</div><div class="row"><div><b>Password</b><div class="field">••••••••</div></div><div><b>Confirm password</b><div class="field">••••••••</div></div></div><div class="chk"><i></i>I agree to the terms and privacy policy</div><button class="btn full" data-go="dash">Sign up</button><p class="mute" style="margin-top:16px">Already have an account? <u data-go="login" style="cursor:pointer;color:var(--ink);font-weight:800">Log in</u></p></div></section>
+
+<section id="dash" class="on"><div class="top"><div><h1>Good evening, Ayesha</h1><p>Midterm in 9 days. Here is today's focus.</p></div></div>
+<div class="grid g4" style="margin-bottom:16px"><div class="card"><div class="mute">Overall mastery</div><div class="big">68%</div><div class="bar"><i style="width:68%"></i></div></div><div class="card"><div class="mute">Quizzes taken</div><div class="big">24</div></div><div class="card"><div class="mute">Weak topics</div><div class="big">5</div></div><div class="card"><div class="mute">Focus this week</div><div class="big">6.5h</div></div></div>
+<div class="grid g2"><div class="card scroll"><h3>Weakness heatmap</h3><div class="hm" id="hm"></div><p class="mute">Solid navy = strong · pale = weak · dashed = not attempted</p></div>
+<div class="card"><h3>Today's plan</h3><p class="mute">Adaptive 70 / 30 guideline</p><div class="bar" style="height:20px"><i style="width:70%"></i></div><p class="mute">70% weak topics · 30% known</p><p>1. Deadlock detection<br>2. Paging &amp; TLB<br>3. CPU scheduling</p><button class="btn" data-go="setup">Start session</button></div></div></section>
+
+<section id="lib"><div class="top"><div><h1>Library</h1><p>AGAHI answers only from these files.</p></div><button class="btn">Upload</button></div>
+<div class="drop"><b>Drag &amp; drop PDFs here</b><div class="mute">Text-based PDF · max 30 MB or 150 pages · scanned files unsupported</div></div>
+<div class="card"><table><tr><th>Name</th><th>Type</th><th>Pages</th><th>Status</th><th></th></tr><tr><td>Lec05_Deadlocks.pdf</td><td>Slides</td><td>64</td><td><span class="pill">Processed</span></td><td><u data-go="sum">Open</u></td></tr><tr><td>OS_Concepts_Ch9.pdf</td><td>Textbook</td><td>120</td><td><span class="pill">Processed</span></td><td><u data-go="sum">Open</u></td></tr><tr><td>Midterm_Fall23.pdf</td><td>Past paper</td><td>6</td><td><span class="pill">Indexing 72%</span></td><td>⋯</td></tr></table></div></section>
+
+<section id="sum"><div class="top"><div><h1>Lec05_Deadlocks</h1><p>64 pages · 3 topics · 7 subtopics</p></div><span><button class="btn alt">Regenerate</button> <button class="btn" data-go="setup">Quiz this</button></span></div>
+<div class="grid g2"><div class="card"><h3>Summary</h3><p>A deadlock occurs when processes wait forever for resources held by each other. Four conditions must hold together. Systems handle it by prevention, avoidance, detection or recovery.</p><p class="mute">Generated from pages 3–58</p></div><div class="card"><h3>Topics</h3><p><b>Deadlock basics</b><br>· Four conditions<br>· Resource graphs<br><b>Avoidance</b><br>· Banker's algorithm<br><b>Detection &amp; recovery</b></p></div></div></section>
+
+<section id="ask"><div class="top"><div><h1>Ask AGAHI</h1><p>Grounded answers with page citations.</p></div></div>
+<div class="grid g2"><div class="card"><div class="q">What are the four conditions for deadlock?</div><div class="a">Mutual exclusion, hold and wait, no preemption and circular wait must all hold <span class="cite">Lec05 p.12</span>. Breaking one prevents deadlock <span class="cite">Ch9 p.318</span>.<br><br><button class="btn alt">Make flashcards</button></div><div class="inp">Ask about your course material…</div></div>
+<div class="card"><h3>Sources</h3><div class="src"><b>Lec05 · p.12</b><br>“…conditions hold simultaneously…”</div><div class="src"><b>Ch9 · p.318</b><br>“…at least one condition cannot hold…”</div><p class="mute">No web search is used.</p></div></div></section>
+
+<section id="fc"><div class="top"><div><h1>Flashcards</h1><p>Deadlocks · card 4 of 18</p></div></div><div class="card fc" id="card">What does “hold and wait” mean?</div><p style="text-align:center"><span class="mute">Click card to flip</span><br><br><button class="btn alt">Needs review</button> <button class="btn">Got it</button></p></section>
+
+<section id="setup"><div class="top"><div><h1>Quiz Setup</h1><p>Create an adaptive practice session.</p></div></div>
+<div class="grid e2"><div class="card"><h3>Source</h3><div class="field">Lec05_Deadlocks.pdf, Ch9</div><h3>Questions</h3><div class="seg" style="justify-content:flex-start"><span>5</span><span class="on">10</span><span>20</span></div></div>
+<div class="card"><h3>Mix</h3><div class="bar" style="height:20px"><i style="width:70%"></i></div><p class="mute">70% weak · 30% mastered (guideline)</p><button class="btn" data-go="quiz">Generate quiz</button></div></div></section>
+
+<section id="quiz"><div class="top"><div><h1>Practice Quiz</h1><p>Deadlocks · Medium</p></div><span class="pill">Streak ×4</span></div>
+<div class="card" style="max-width:760px"><div class="mute">Question 3 of 10</div><div class="bar"><i style="width:30%"></i></div><h2 style="margin:14px 0;font-family:Fraunces,serif">Which condition is broken by requesting all resources at once?</h2>
+<div><button class="opt" data-c="0">Mutual exclusion</button><button class="opt" data-c="1">Hold and wait</button><button class="opt" data-c="0">No preemption</button><button class="opt" data-c="0">Circular wait</button></div>
+<div class="fb" id="fb"><b>Correct.</b> Requesting everything up front removes hold and wait. <span class="cite">Lec05 p.21</span></div><p><button class="btn" data-go="res">Finish Quiz</button></p></div></section>
+
+<section id="res"><div class="top"><div><h1>Results</h1><p>Deadlocks quiz · submitted today</p></div></div>
+<div class="grid g3"><div class="card"><div class="mute">Score</div><div class="big">8/10</div></div><div class="card"><div class="mute">Topic mastery</div><div class="big">+12%</div></div><div class="card"><div class="mute">Streak</div><div class="big">5</div></div></div>
+<div class="card" style="margin-top:16px"><h3>Review mistakes</h3><p>Q4. Banker's algorithm safe state <span class="cite">p.33</span><br>Q9. Wait-for graph cycle <span class="cite">p.41</span></p><button class="btn" data-go="setup">Practice again</button></div></section>
+
+<section id="prog"><div class="top"><div><h1>Progress</h1><p>Mastery by topic.</p></div></div>
+<div class="grid e2"><div class="card"><h3>Topic mastery</h3><div class="hb"><span>Scheduling</span><div class="bar"><i style="width:84%"></i></div><span>84%</span></div><div class="hb"><span>Memory</span><div class="bar"><i style="width:52%"></i></div><span>52%</span></div><div class="hb"><span>Deadlocks</span><div class="bar"><i style="width:41%"></i></div><span>41%</span></div><div class="hb"><span>Sync</span><div class="bar"><i style="width:60%"></i></div><span>60%</span></div></div>
+<div class="card"><h3>Weekly activity</h3><div class="hb"><span>This week</span><div class="bar"><i style="width:70%"></i></div><span>5 quizzes</span></div><div class="hb"><span>Last week</span><div class="bar"><i style="width:40%"></i></div><span>3 quizzes</span></div></div></div></section>
+
+<section id="exam"><div class="top"><div><h1>Exam Insights</h1><p>Past-paper patterns vs. your weak spots.</p></div></div>
+<div class="grid g2"><div class="card"><h3>Topic frequency</h3><div class="hb"><span>Deadlocks</span><div class="bar"><i style="width:95%"></i></div><span>6 of 6</span></div><div class="hb"><span>Paging</span><div class="bar"><i style="width:80%"></i></div><span>5 of 6</span></div><div class="hb"><span>Scheduling</span><div class="bar"><i style="width:65%"></i></div><span>4 of 6</span></div><div class="hb"><span>File systems</span><div class="bar"><i style="width:35%"></i></div><span>2 of 6</span></div></div>
+<div class="card"><h3>High-yield &amp; weak</h3><p><b>Deadlocks</b> · 41% mastery<br><b>Paging</b> · 48% mastery</p><button class="btn" data-go="setup">Practice these</button></div></div></section>
+
+<section id="focus"><div class="top"><div><h1>Focus Timer</h1><p>Customisable Pomodoro.</p></div></div>
+<div class="grid e2"><div class="card" style="text-align:center"><div class="seg"><span class="on">Focus 25</span><span>Break 5</span><span>Long 15</span></div><div class="ring"><div>15:30</div></div><p class="mute">Studying: Deadlock detection</p><button class="btn">Pause</button> <button class="btn alt">Reset</button></div>
+<div class="card"><h3>Settings</h3><p>Focus: <b>25 min</b><br>Short break: <b>5 min</b><br>Long break after: <b>4 sessions</b></p><h3>Today</h3><p>3 sessions · 75 min</p></div></div></section>
+
+<section id="set"><div class="top"><div><h1>Settings</h1><p>Profile and preferences.</p></div></div>
+<div class="grid e2"><div class="card"><h3>Profile</h3><b>Name</b><div class="field">Ayesha Khan</div><b>Email</b><div class="field">ayesha@lhr.nu.edu.pk</div></div>
+<div class="card"><h3>Preferences</h3><p>Dark mode <span class="tog off"></span><br>Streak reminders <span class="tog"></span><br>Break sound cue <span class="tog"></span></p></div></div></section>
+</main></div>
+<script>
+const $=s=>document.querySelector(s);
+function go(id){art(id);document.body.classList.toggle('auth',id==='login'||id==='signup');document.querySelectorAll('section').forEach(e=>e.classList.toggle('on',e.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.s===id));scrollTo(0,0)}
+document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>go(b.dataset.s));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+const T=['Memory','Deadlocks','Scheduling','File systems','Sync','I/O'];
+const V=[[.7,.5,.4,.8,.9,.6,.3,.5],[.3,.4,.5,.2,.4,.6,.35,.45],[.9,.85,.7,.8,.95,.6,.75,.9],[.6,.7,0,.5,.65,0,.8,.7],[.5,.6,.45,.7,.3,.55,.6,.4],[.8,.7,.9,0,.75,.85,.7,.8]];
+let h='<span></span>'+[1,2,3,4,5,6,7,8].map(n=>'<span class="mute">Sub '+n+'</span>').join('');
+V.forEach((r,i)=>{h+='<span>'+T[i]+'</span>'+r.map(v=>'<div class="c" title="'+Math.round(v*100)+'%" style="background:'+(v?'color-mix(in srgb,var(--ink) '+Math.round(v*100)+'%,var(--card))':'transparent')+';'+(v?'':'border-style:dashed;border-color:var(--line)')+'"></div>').join('')});
+$('#hm').innerHTML=h;
+document.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{document.querySelectorAll('.opt').forEach(x=>x.classList.remove('ok','no'));o.classList.add(o.dataset.c==='1'?'ok':'no');$('#fb').style.display=o.dataset.c==='1'?'block':'none'});
+let f=0;$('#card').onclick=e=>{f=!f;e.currentTarget.textContent=f?'The process holds one resource while waiting to acquire others held by other processes.':'What does “hold and wait” mean?'};
+
+const ART={
+auth:'pen 70 70 .6 -48|globe 230 60 .55 0|notebook 1000 60 .55 -4|trophy 1240 90 .5 0|backpack 60 330 .55 -8|folder 70 600 .55 -12|cap 1230 330 .8 0|clock 1240 620 .6 0|books 330 660 .5 0|cup 900 680 .6 0|bell 600 690 .55 0|magnifier 1100 690 .55 0',
+dash:'clock 1240 90 .6 0|flame 1250 650 .7 0|heat 70 680 .8 0|trophy 1110 80 .5 0|pen 700 690 .5 -30|notebook 330 690 .5 -4',
+lib:'pdf 1240 100 .9 8|folder 1240 600 .6 -12|binders 1100 660 .5 0|books 80 680 .5 0|magnifier 300 690 .5 0',
+sum:'notebook 1230 90 .55 -4|pen 1120 650 .55 -40|openbook 1230 640 .5 -6|bulb 80 680 1 0',
+ask:'chat 1240 100 .9 0|magnifier 1230 650 .6 0|bulb 90 690 1 0|openbook 330 680 .5 -6',
+fc:'cards 1230 100 1 -6|books 1230 650 .5 0|pen 100 690 .5 -40|bulb 330 690 .9 0',
+setup:'checklist 1240 100 .9 4|cup 1230 660 .7 0|clock 90 680 .5 0|binders 330 670 .5 0',
+quiz:'checklist 100 690 .9 -4|bulb 1240 110 1 0|pen 1230 650 .55 -45|clock 330 690 .5 0',
+res:'trophy 1220 110 .6 0|flame 1250 650 .7 0|checklist 90 690 .9 0|cap 330 690 .8 0',
+prog:'heat 1240 110 1 0|flame 100 690 .7 0|trophy 1250 640 .6 0|notebook 330 680 .5 -4',
+exam:'folder 1240 120 .6 -12|magnifier 1240 640 .6 0|pdf 100 680 .9 -6|binders 330 660 .5 0',
+focus:'tomato 1230 110 1 0|clock 1240 650 .6 0|bell 100 690 .55 0|pen 330 690 .5 -40',
+set:'backpack 1230 130 .55 -8|cup 1240 650 .7 0|globe 100 680 .55 0|bell 330 690 .55 0'};
+ART.login=ART.signup=ART.auth;
+function art(id){$('#art').innerHTML=(ART[id]||'').split('|').map(t=>{const[n,x,y,k,r]=t.split(' ');return`<use href="#${n}" transform="translate(${x} ${y}) rotate(${r}) scale(${k})"/>`}).join('')}
+art('dash');
+</script></body></html>
